@@ -1,0 +1,167 @@
+---
+title: "Data analytics with Polars"
+subtitle: "A gentle introduction to Polars through the NYC Taxi dataset"
+author: "Amit Arora (aroraai@)"
+institute:
+- "Principal SA - AI/ML"
+format:
+  revealjs:
+    slide-number: true
+    show-slide-number: print
+    theme: custom.scss
+    transition: fade
+    background-transition: fade
+    highlight-style: ayu-mirage
+    code-copy: true
+---
+
+
+## Before we begin..
+
+>[Pandas](https://pandas.pydata.org/): pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool, built on top of the Python programming language.
+
+::: {.incremental}
+
+1. Pandas is slow, well yes but also not so smuch if you use it the right way.
+
+    - [Apache Arrow and the "10 Things I Hate About pandas"](https://wesmckinney.com/blog/apache-arrow-pandas-internals/) (<font color=red size=5>A 2017 post from the creator of Pandas..</font>)
+
+    - [50 times faster data loading for Pandas: no problem](https://blog.esciencecenter.nl/irregular-data-in-pandas-using-c-88ce311cb9ef) (<font color=red size=5>but this is an old 2019 article..</font>)
+
+    - [Is Pandas really that slow?](https://medium.com/@tommerrissin/is-pandas-really-that-slow-cff4352e4f58)
+
+1. [Pandas 2.0 and the arrow revolution](https://datapythonista.me/blog/pandas-20-and-the-arrow-revolution-part-i)
+
+:::
+
+
+## Polars
+
+>Polars: Lightning-fast DataFrame library for Rust and Python
+
+Why is it faster than Pandas?
+
+::: {.incremental}
+
+1. Written in [Rust](https://www.rust-lang.org/) (compiled not interpreted).
+
+1. Uses all available cores of your machine.
+
+1. Use [PyArrow](https://pypi.org/project/pyarrow/).
+
+1. Makes it easier to write more expressive code.
+:::
+
+# Using Polars
+
+Install polars via pip.
+
+```{.bash}
+pip install polars
+```
+
+Import polars in your Python code as
+
+```{.python}
+import polars as pl
+```
+
+Read data as usual.
+
+```{.python}
+df = pd.read_parquet("s3://nyc-tlc/trip data/yellow_tripdata_2022-01.parquet")
+```
+
+## Coming from Pandas to Polars
+
+::: columns
+
+::: {.column width="50%"}
+
+```{.python}
+import pandas as pd
+df = pd.DataFrame({
+    "type": ["m", "n", "o", "m", "m", "n", "n"],
+    "c": [1, 1, 1, 2, 2, 2, 2],
+})
+
+df["size"] = df.groupby("c")["type"].transform(len)
+df
+```
+```{python}
+import pandas as pd
+df = pd.DataFrame({
+    "type": ["m", "n", "o", "m", "m", "n", "n"],
+    "c": [1, 1, 1, 2, 2, 2, 2],
+})
+
+df["size"] = df.groupby("c")["type"].transform(len)
+df
+```
+:::
+
+::: {.column width="50%"}
+```{.python}
+import polars as pl
+df = pl.DataFrame({
+    "type": ["m", "n", "o", "m", "m", "n", "n"],
+    "c": [1, 1, 1, 2, 2, 2, 2],
+})
+df.select([
+    pl.all(),
+    pl.col("type").count().over("c").alias("size")
+])
+```
+```{python}
+import polars as pl
+df = pl.DataFrame({
+    "type": ["m", "n", "o", "m", "m", "n", "n"],
+    "c": [1, 1, 1, 2, 2, 2, 2],
+})
+df.select([
+    pl.all(),
+    pl.col("type").count().over("c").alias("size")
+])
+```
+:::
+:::
+
+>https://pola-rs.github.io/polars-book/user-guide/coming_from_pandas.html
+
+## Coming From Pandas to Polars (contd.)
+
+::: {.goal}
+**Polars != Pandas**
+:::
+
+>**Conceptual differences**:
+
+1. Polars does not have an index.
+
+1. Uses Apache Arrow, Pandas uses Numpy (although with Pandas 2.0 you can use PyArrow).
+
+1. More support for parallel operation (thanks to Rust's concurrency).
+
+1. Supports lazy (and eager) evaluation which allows for query optimization.
+
+>**Syntax**:
+
+1. Selecting data (use of expressions rather than index based).
+
+1. More expressive code with verbs.
+
+
+## Coming From Spark to Polars
+
+>https://pola-rs.github.io/polars-book/user-guide/coming_from_spark.html
+
+## Polars: useful links
+
+- [Polars](https://github.com/pola-rs/polars)
+- [User guide](https://pola-rs.github.io/polars-book/user-guide/)
+- [Polars GitHub repo](https://github.com/pola-rs/polars)
+- [Polars Vs Pandas 2.0](https://medium.com/cuenex/pandas-2-0-vs-polars-the-ultimate-battle-a378eb75d6d1)
+- [Pandas Vs Polars: a syntax and speed comparison](https://towardsdatascience.com/pandas-vs-polars-a-syntax-and-speed-comparison-5aa54e27497e)
+- [Tips & tricks for working with strings in Polars](https://towardsdatascience.com/tips-and-tricks-for-working-with-strings-in-polars-ec6bb74aeec2)
+- [Pnadas 2.0 and its ecosystem - Arrow, Polars & DuckDB](https://airbyte.com/blog/pandas-2-0-ecosystem-arrow-polars-duckdb)
+
