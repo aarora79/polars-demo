@@ -1232,7 +1232,7 @@ Amit Arora (aroraai@)
 </blockquote>
 <div>
 <ol type="1">
-<li class="fragment"><p>Pandas is slow, well yes but also not so smuch if you use it the right way.</p>
+<li class="fragment"><p>Pandas is slow, well yes but also not so much if you use it the right way.</p>
 <ul>
 <li class="fragment"><p><a href="https://wesmckinney.com/blog/apache-arrow-pandas-internals/">Apache Arrow and the “10 Things I Hate About pandas”</a> (<font color="red" size="5">A 2017 post from the creator of Pandas..</font>)</p></li>
 <li class="fragment"><p><a href="https://blog.esciencecenter.nl/irregular-data-in-pandas-using-c-88ce311cb9ef">50 times faster data loading for Pandas: no problem</a> (<font color="red" size="5">but this is an old 2019 article..</font>)</p></li>
@@ -1265,7 +1265,7 @@ Amit Arora (aroraai@)
 <p>Import polars in your Python code as</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Read data as usual.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>df <span class="op">=</span> pd.read_parquet(<span class="st">&quot;s3://nyc-tlc/trip data/yellow_tripdata_2022-01.parquet&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>df <span class="op">=</span> pl.read_parquet(<span class="st">&quot;s3://nyc-tlc/trip data/yellow_tripdata_2022-01.parquet&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="coming-from-pandas-to-polars" class="slide level2">
 <h2>Coming from Pandas to Polars</h2>
@@ -1280,7 +1280,7 @@ Amit Arora (aroraai@)
 <span id="cb4-7"><a href="#cb4-7"></a>df[<span class="st">&quot;size&quot;</span>] <span class="op">=</span> df.groupby(<span class="st">&quot;c&quot;</span>)[<span class="st">&quot;type&quot;</span>].transform(<span class="bu">len</span>)</span>
 <span id="cb4-8"><a href="#cb4-8"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="3">
 
 <div>
 <style scoped>
@@ -1362,7 +1362,7 @@ text-align: right;
 <span id="cb5-8"><a href="#cb5-8"></a>    pl.col(<span class="st">&quot;type&quot;</span>).count().over(<span class="st">&quot;c&quot;</span>).alias(<span class="st">&quot;size&quot;</span>)</span>
 <span id="cb5-9"><a href="#cb5-9"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="4">
 
 <div>
 <style>
