@@ -165,3 +165,6 @@ df.select([
 - [Tips & tricks for working with strings in Polars](https://towardsdatascience.com/tips-and-tricks-for-working-with-strings-in-polars-ec6bb74aeec2)
 - [Pnadas 2.0 and its ecosystem - Arrow, Polars & DuckDB](https://airbyte.com/blog/pandas-2-0-ecosystem-arrow-polars-duckdb)
 
+## Lab
+
+[https://github.com/aarora79/polars-demo](https://github.com/aarora79/polars-demo)
